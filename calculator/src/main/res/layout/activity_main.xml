@@ -16,7 +16,7 @@
         android:id="@+id/et_input"
         android:layout_width="match_parent"
         android:layout_height="60dip"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorAccent"
         android:gravity="right|bottom"
         android:background="@drawable/shape"
         android:editable="false"
