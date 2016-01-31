@@ -27,12 +27,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button bt_POINT;
     Button bt_EQUAL;
     EditText et_INPUT;
-    boolean flag;
+    boolean flag = false;//清空标识
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_second);
 
         bt_0 = (Button) findViewById(R.id.bt_0);
         bt_1 = (Button) findViewById(R.id.bt_1);
@@ -72,14 +73,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bt_MINUS.setOnClickListener(this);
         bt_MULT.setOnClickListener(this);
         bt_DIVIDE.setOnClickListener(this);
-        et_INPUT.setOnClickListener(this);
-
     }
 
     @Override
     public void onClick(View v) {
 
+        //把对象转换成String类型
         String str = et_INPUT.getText().toString();
+
         switch (v.getId()){
             case R.id.bt_0:
             case R.id.bt_1:
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_point:
                 if(flag){
                     flag = false;
+                    str ="";
                     et_INPUT.setText("");
                 }
                 et_INPUT.setText(str + ((Button)v).getText());
@@ -104,16 +106,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_division:
                 if(flag){
                     flag = false;
+                    str ="";
                     et_INPUT.setText("");
                 }
                 et_INPUT.setText(str + " " + ((Button) v).getText() + " ");
                 break;
             case R.id.bt_C:
                 flag = false;
+                str ="";
                 et_INPUT.setText("");
                 break;
             case R.id.bt_DEL:
-                if(str != null && str.equals("")){
+                if(str != null && !str.equals("")){
                     et_INPUT.setText(str.substring(0,str.length() - 1));
                 }
             case R.id.bt_eq:
@@ -125,11 +129,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getResult() {
-        String exp = et_INPUT.getText().toString();
-        if (exp == null || exp.equals("")) {
+        String str = et_INPUT.getText().toString();
+        if (str == null || str.equals("")) {
             return;
         }
-        if (!exp.contains(" ")) {
+        //是否包含空格,即无运算符
+        if (!str.contains(" ")) {
             return;
         }
         if(flag){
@@ -138,9 +143,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         flag = true;
         double result = 0;
-        String s1 = exp.substring(0, exp.indexOf(" "));//运算符前面的字符串
-        String op = exp.substring(exp.indexOf(" ") + 1, exp.indexOf(" ") + 2);
-        String s2 = exp.substring(exp.indexOf(" ") + 3);
+        String s1 = str.substring(0, str.indexOf(" "));//运算符前面的字符串
+        String op = str.substring(str.indexOf(" ") + 1, str.indexOf(" ") + 2);
+        String s2 = str.substring(str.indexOf(" ") + 3);
         if (!s1.equals(" ") && !s2.equals(" ")) {
             double d1 = Double.parseDouble(s1);
             double d2 = Double.parseDouble(s2);
@@ -158,14 +163,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     result = d1 / d2;
                 }
             }
-            if (!s1.contains(".") && !s2.contains(".")) {
+            if (!s1.contains(".") && !s2.contains(".") && !op.equals("/")) {
                 int r = (int) result;
                 et_INPUT.setText(r + "");
             } else {
                 et_INPUT.setText(result + "");
             }
         } else if (!s1.equals(" ") && s2.equals(" ")) {
-            et_INPUT.setText(exp);
+            et_INPUT.setText(str);
         } else if (s1.equals(" ") && !s2.equals(" ")) {
             double d2 = Double.parseDouble(s2);
             if (op.equals("+")) {
@@ -184,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 et_INPUT.setText(result + "");
             }
         }else {
-            et_INPUT.setText(exp);
+            et_INPUT.setText(str);
         }
     }
 
