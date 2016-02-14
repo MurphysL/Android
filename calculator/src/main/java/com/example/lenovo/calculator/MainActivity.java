@@ -1,10 +1,6 @@
 package com.example.lenovo.calculator;
 
 import android.content.Intent;
-import android.gesture.GestureOverlayView;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,39 +11,41 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener,
         View.OnTouchListener,View.OnClickListener{
 
     public final static String TAG = "Calculator";
 
-    Button bt_1;
-    Button bt_2;
-    Button bt_3;
-    Button bt_4;
-    Button bt_5;
-    Button bt_6;
-    Button bt_7;
-    Button bt_8;
-    Button bt_9;
-    Button bt_0;
-    Button bt_CLEAN;
-    Button bt_DEL;
-    Button bt_PLUS;
-    Button bt_MINUS;
-    Button bt_DIVIDE;
-    Button bt_MULT;
-    Button bt_POINT;
-    Button bt_EQUAL;
-    EditText et_INPUT;
+    //18键
+    private Button bt_1;
+    private Button bt_2;
+    private Button bt_3;
+    private Button bt_4;
+    private Button bt_5;
+    private Button bt_6;
+    private Button bt_7;
+    private Button bt_8;
+    private Button bt_9;
+    private Button bt_0;
+    private Button bt_CLEAN;
+    private Button bt_DEL;
+    private Button bt_PLUS;
+    private Button bt_MINUS;
+    private Button bt_DIVIDE;
+    private Button bt_MULT;
+    private Button bt_POINT;
+    private Button bt_EQUAL;
 
-    GestureDetector gestureDetector;//手势检测
+    private EditText et_INPUT;
+    private EditText et_OUTPUT;
 
-    boolean flag = false;//清空标识
+    boolean flag;//清空标识
 
-    private static final int SWIPE_MIN_DISTANCE = 20;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 10;
+    private GestureDetector gestureDetector;//手势检测
+
+    private static final int SWIPE_MIN_DISTANCE = 20;//滑动距离阙值
+    private static final int SWIPE_THRESHOLD_VELOCITY = 10;//滑动速度阙值
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +53,18 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        init();
+
+    }
+
+    /**
+     * 初始化
+     */
+    private void init(){
+        Log.i(TAG, "--------init--------");
+
+        flag = false;
 
         gestureDetector = new GestureDetector(this);
         LinearLayout layout = (LinearLayout)findViewById(R.id.linearlayout);
@@ -81,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         bt_DEL = (Button) findViewById(R.id.bt_DEL);
         bt_CLEAN = (Button) findViewById(R.id.bt_C);
         et_INPUT = (EditText) findViewById(R.id.et_input);
+        et_OUTPUT = (EditText) findViewById(R.id.et_input2);
 
         //按钮监听事件
         bt_0.setOnClickListener(this);
@@ -103,6 +114,22 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         bt_DIVIDE.setOnClickListener(this);
 
         //解决按键冲突
+        et_INPUT.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        et_OUTPUT.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
         bt_CLEAN.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -247,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 return false;
             }
         });
+
     }
 
     /**
