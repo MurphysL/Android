@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
 import java.util.StringTokenizer;
 
 /**
@@ -58,6 +57,7 @@ public class SecondActivity extends Activity implements View.OnClickListener{
     private EditText et_OUTPUT;
 
     private double pi = Math.PI;
+    private static final double e_num = 2.7182818;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,13 +170,13 @@ public class SecondActivity extends Activity implements View.OnClickListener{
             case R.id.sbt_leftbracket:
             case R.id.sbt_rightbracket:
             case R.id.sbt_radical:
-            case R.id.sbt_factorial:
             case R.id.sbt_π:
             case R.id.sbt_e:
             case R.id.sbt_power:
             case R.id.sbt_point:
                 et_INPUT.setText( str2 + ((Button) v).getText() );
                 break;
+            case R.id.sbt_factorial:
             case R.id.sbt_log:
                 et_INPUT.setText( str2 + ((Button) v).getText() + '(');
                 break;
@@ -188,6 +188,7 @@ public class SecondActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.sbt_Cd:
                 et_INPUT.setText("");
+                et_OUTPUT.setText("");
                 break;
             case R.id.sbt_DEL:
                 if(str2 != null && !str2.equals("")){
@@ -225,7 +226,9 @@ public class SecondActivity extends Activity implements View.OnClickListener{
      */
     private void getResult2() {
 
+        Log.i(TAG, "-----------------------------------------------------------------------");
         Log.i(TAG, "--------getResult2--------");
+        Log.i(TAG, "-----------------------------------------------------------------------");
 
         int rank = 0;//括号优先级
         int temp = 0;//符号优先级
@@ -247,7 +250,6 @@ public class SecondActivity extends Activity implements View.OnClickListener{
         str2 = str2.replaceAll("tan", "t");
         str2 = str2.replaceAll("log", "l");
         str2 = str2.replaceAll("ln", "n");
-        str2 = str2.replaceAll("n!", "!");
 
         StringTokenizer expToken = new StringTokenizer(str2 , "+-*/()sctln!√^" );//第一个参数就是要分隔的String，第二个是分隔字符集合
 
@@ -284,13 +286,13 @@ public class SecondActivity extends Activity implements View.OnClickListener{
                 ch = c;
                 Log.i(TAG ,c + "--->" + i);
 
-                while(i < str2.length() && (ch <= '9' && ch >= '0' || ch == '.' || ch == 'e')){
+                while(i < str2.length() && (ch <= '9' && ch >= '0' || ch == '.' || ch == 'e' || ch == 'π')){
                     ch = str2.charAt(i++);
                 }
                 Log.i(TAG , c + "--->" + i);
-                if ( i >= str2.length() )
+                if ( i >= str2.length() ) {
                     i -= 1;
-                else {
+                }else {
                     i -= 2;
                 }
 
@@ -298,19 +300,24 @@ public class SecondActivity extends Activity implements View.OnClickListener{
 
                 //为.
                 if (num .compareTo(".") == 0) {
-                    //maxNum + 1
                     number[maxNum ++] = 0;
-                }
-                    // 将正负符号转移给数字
-                else {
+                }else{
                     //字符串转换为double类型
-                    number[maxNum] = Double.parseDouble(num) * plus_minus_flag;
+                    if(num.compareTo("e" ) == 0|| num.compareTo("π") == 0){
+                        if(num.compareTo("e" ) == 0) {
+                            number[maxNum] = (double)e_num;
+                        }else{
+                            number[maxNum] = (double)pi;
+                            Log.i( TAG , "number" + "[" + maxNum + "]" + ":" + number[maxNum]);
+                        }
+                    }else {
+                        number[maxNum] = Double.parseDouble(num) * plus_minus_flag;
+                    }
                     Log.i( TAG , "number" + "[" + maxNum + "]" + ":" + number[maxNum]);
                     maxNum++;
                     //正负标识初始化
                     plus_minus_flag = 1;
                 }
-                Log.i(TAG , "maxNum:" + maxNum);
             }
 
             Log.i(TAG, "--------优先级--------");
@@ -333,7 +340,7 @@ public class SecondActivity extends Activity implements View.OnClickListener{
                         break;
                     case '^':
                     case '√':
-                        temp = 2 + rank;
+                        temp = 4 + rank;
                         break;
                     case 's':
                     case 'c':
@@ -341,124 +348,221 @@ public class SecondActivity extends Activity implements View.OnClickListener{
                     case 'l':
                     case 'n':
                     case '!':
-                        temp = 4 + rank;
+                        temp = 3 + rank;
                         break;
                     default:
                         break;
                 }
-            }
+                Log.i(TAG, "--------符号运算--------");
+                //------[ 1 + 2 * 5 * ( 6 - ( - 7 * 2 )) / 1 ]------
+                //------    1   2   2 r4  5 r8    10 -r8 2    ------
 
-            Log.i(TAG, "--------符号运算--------");
-            //------[ 1 + 2 * 5 * ( 6 - ( - 7 * 2 )) / 1 ]------
-            //------    1   2   2 r4  5 r8    10 -r8 2    ------
-
-            // 如果当前符号优先级大于堆栈顶部元素，则直接入栈（括号）
-            if( maxOp == 0 || opRank[ maxOp - 1 ] < temp ){
-                opRank[maxOp] = temp;
-                operator[maxOp] = c;
-                maxOp++;
-                // 否则将堆栈中运算符逐个取出，直到当前堆栈顶部运算符的优先级小于当前运算符
-            }else{
-                while (maxOp > 0 && opRank[ maxOp - 1 ] >= temp) {
-                    switch (operator[ maxOp - 1 ]) {
-                        // 取出数字数组的相应元素进行运算
-                        case '+':
-                            Log.i(TAG , "--------加--------");
-                            number[ maxNum - 2 ] += number[ maxNum - 1 ];
-                            break;
-                        case '-':
-                            Log.i(TAG , "--------减--------");
-                            number[ maxNum - 2 ] -= number[ maxNum - 1];
-                            break;
-                        case '*':
-                            Log.i(TAG , "--------乘--------");
-                            number[ maxNum - 2 ] *= number[ maxNum - 1 ];
-                            break;
-                        // 判断除数为0的情况
-                        case '/':
-                            Log.i(TAG , "--------除--------");
-                            if(number[ maxNum - 1 ] == 0){
-                                et_INPUT.setText("");
-                                showError(1);
-                                return;
-                            }
-                            number[ maxNum - 2 ] /= number[ maxNum - 1 ];
-                            break;
-                        case '√':
-                            Log.i(TAG , "--------根--------");
-                            if(number[ maxNum - 2 ] == 0 || (number[ maxNum - 1 ] < 0 && number[ maxNum - 2 ] % 2 == 0)){
-                                showError(2);
-                                return;
-                            }
-                            number[ maxNum - 2 ] = Math.pow(number[ maxNum - 1 ] , 1 / number[ maxNum - 2 ]);
-                            break;
-                        case '^':
-                            Log.i(TAG , "--------次方--------");
-                            number[ maxNum - 2 ] = Math.pow(number[ maxNum - 2 ] , number[ maxNum - 1 ]);
-                            break;
-                        case 's':
-                            number[ maxNum - 1 ] = Math.sin((number[ maxNum - 1 ] / 180) * pi);
-                            maxNum++;
-                            break;
-                        case 'c':
-                            number[ maxNum - 1 ] = Math.cos((number[ maxNum - 1 ] / 180) * pi);
-                            maxNum++;
-                            break;
-                        case 't':
-                            if ((Math.abs(number[ maxNum - 1 ]) / 90) % 2 == 1) {
-                                showError(2);
-                                return;
-                            }
-                            number[ maxNum - 1 ] = Math.tan((number[ maxNum - 1 ] / 180) * pi);
-                            maxNum++;
-                            break;
-                        //ln
-                        case 'n':
-                            if (number[ maxNum - 1 ] <= 0) {
-                                showError(2);
-                                return;
-                            }
-                            number[ maxNum - 1 ] = Math.log(number[ maxNum - 1 ]);
-                            maxNum++;
-                            break;
-                        //log
-                        case 'l':
-                            if (number[ maxNum - 1 ] <= 0) {
-                                showError(2);
-                                return;
-                            }
-                            number[ maxNum - 2 ] = log(number[ maxNum - 2 ],number[ maxNum - 1 ]);
-                            maxNum++;
-                            break;
-                        //位置
-                        case '!':
-                            if (number[maxNum - 1] < 0) {
-                                showError(2);
-                                return;
-                            }
-                            double sum = 1;
-                            // 依次将小于等于n的值相乘
-                            for (int j = 1; j <= number[maxNum - 1]; j++) {
-                                sum = sum * j;
-                            }
-                            Log.i(TAG , "maxNum:" + maxNum);
-                            number[maxNum - 1] = sum;
-                            maxNum++;
-                            break;
-                        default:
-                            break;
+                //如果当前符号优先级大于堆栈顶部元素，则直接入栈
+                //排除数字干扰
+                if( maxOp == 0 || opRank[ maxOp - 1 ] < temp ){
+                    Log.i(TAG, "--------入栈--------");
+                    opRank[maxOp] = temp;
+                    Log.i(TAG , "opRank[maxOp]:" + opRank[maxOp]);
+                    operator[maxOp] = c;
+                    Log.i(TAG , "operator[maxOp]:" + operator[maxOp]);
+                    maxOp++;
+                    //否则将堆栈中运算符逐个取出，直到当前堆栈顶部运算符的优先级小于当前运算符
+                }else{
+                    Log.i(TAG, "--------出栈--------");
+                    while (maxOp > 0 && opRank[ maxOp - 1 ] >= temp) {
+                        switch (operator[ maxOp - 1 ]) {
+                            case '+':
+                                Log.i(TAG , "--------加--------");
+                                number[ maxNum - 2 ] += number[ maxNum - 1 ];
+                                break;
+                            case '-':
+                                Log.i(TAG , "--------减--------");
+                                number[ maxNum - 2 ] -= number[ maxNum - 1];
+                                break;
+                            case '*':
+                                Log.i(TAG , "--------乘--------");
+                                number[ maxNum - 2 ] *= number[ maxNum - 1 ];
+                                break;
+                            case '/':
+                                Log.i(TAG , "--------除--------");
+                                if(number[ maxNum - 1 ] == 0){
+                                    et_INPUT.setText("");
+                                    showError(1);
+                                    return;
+                                }
+                                number[ maxNum - 2 ] /= number[ maxNum - 1 ];
+                                break;
+                            case '√':
+                                Log.i(TAG , "--------根--------");
+                                if(number[ maxNum - 2 ] == 0 || (number[ maxNum - 1 ] < 0 && number[ maxNum - 2 ] % 2 == 0)){
+                                    showError(2);
+                                    return;
+                                }
+                                number[ maxNum - 2 ] = Math.pow(number[ maxNum - 1 ] , 1 / number[ maxNum - 2 ]);
+                                break;
+                            case '^':
+                                Log.i(TAG , "--------次方--------");
+                                number[ maxNum - 2 ] = Math.pow(number[ maxNum - 2 ] , number[ maxNum - 1 ]);
+                                break;
+                            case 's':
+                                Log.i(TAG , "--------sin--------");
+                                number[ maxNum - 1 ] = Math.sin((number[ maxNum - 1 ] / 180) * pi);
+                                maxNum++;
+                                break;
+                            case 'c':
+                                Log.i(TAG , "--------cos--------");
+                                number[ maxNum - 1 ] = Math.cos((number[ maxNum - 1 ] / 180) * pi);
+                                maxNum++;
+                                break;
+                            case 't':
+                                Log.i(TAG , "--------tan--------");
+                                if ((Math.abs(number[ maxNum - 1 ]) / 90) % 2 == 1) {
+                                    showError(2);
+                                    return;
+                                }
+                                number[ maxNum - 1 ] = Math.tan((number[ maxNum - 1 ] / 180) * pi);
+                                maxNum++;
+                                break;
+                            case 'n':
+                                Log.i(TAG , "--------ln--------");
+                                if (number[ maxNum - 1 ] <= 0) {
+                                    showError(2);
+                                    return;
+                                }
+                                number[ maxNum - 1 ] = Math.log(number[ maxNum - 1 ]);
+                                maxNum++;
+                                break;
+                            case 'l':
+                                Log.i(TAG , "--------log--------");
+                                if (number[ maxNum - 1 ] <= 0) {
+                                    showError(2);
+                                    return;
+                                }
+                                number[ maxNum - 2 ] = myLog(number[maxNum - 2], number[maxNum - 1]);
+                                maxNum++;
+                                break;
+                            case '!':
+                                Log.i(TAG , "--------阶乘--------");
+                                if (number[maxNum - 1] < 0) {
+                                    showError(2);
+                                    return;
+                                }
+                                double sum = 1;
+                                for (int j = 1; j <= number[maxNum - 1]; j++) {
+                                    sum = sum * j;
+                                }
+                                Log.i(TAG , "maxNum:" + maxNum);
+                                number[maxNum - 1] = sum;
+                                maxNum++;
+                                break;
+                            default:
+                                break;
+                        }
+                        maxNum--;
+                        maxOp--;
                     }
-                    // 继续取堆栈的下一个元素进行判断
-                    maxNum--;
-                    maxOp--;
-                    Log.i(TAG , "maxNum_Last:" + maxNum);
+                    opRank[maxOp] = temp;
+                    operator[maxOp] = c;
+                    maxOp++;
                 }
             }
         }
-        et_INPUT.setText(String.valueOf(number[0]));
-        Log.i(TAG, "--------INPUT--------");
-    }
+        while (maxOp > 0){
+            switch (operator[ maxOp - 1 ]) {
+                case '+':
+                    Log.i(TAG , "--------加--------");
+                    number[ maxNum - 2 ] += number[ maxNum - 1 ];
+                    break;
+                case '-':
+                    Log.i(TAG , "--------减--------");
+                    number[ maxNum - 2 ] -= number[ maxNum - 1];
+                    break;
+                case '*':
+                    Log.i(TAG , "--------乘--------");
+                    number[ maxNum - 2 ] *= number[ maxNum - 1 ];
+                    break;
+                case '/':
+                    Log.i(TAG , "--------除--------");
+                    if(number[ maxNum - 1 ] == 0){
+                        et_INPUT.setText("");
+                        showError(1);
+                        return;
+                    }
+                    number[ maxNum - 2 ] /= number[ maxNum - 1 ];
+                    break;
+                case '√':
+                    Log.i(TAG , "--------根--------");
+                    if(number[ maxNum - 2 ] == 0 || (number[ maxNum - 1 ] < 0 && number[ maxNum - 2 ] % 2 == 0)){
+                        showError(2);
+                        return;
+                    }
+                    number[ maxNum - 2 ] = Math.pow(number[ maxNum - 1 ] , 1 / number[ maxNum - 2 ]);
+                    break;
+                case '^':
+                    Log.i(TAG , "--------次方--------");
+                    number[ maxNum - 2 ] = Math.pow(number[ maxNum - 2 ] , number[ maxNum - 1 ]);
+                    break;
+                case 's':
+                    Log.i(TAG , "--------sin--------");
+                    number[ maxNum - 1 ] = Math.sin((number[ maxNum - 1 ] / 180) * pi);
+                    maxNum++;
+                    break;
+                case 'c':
+                    Log.i(TAG , "--------cos--------");
+                    number[ maxNum - 1 ] = Math.cos((number[ maxNum - 1 ] / 180) * pi);
+                    maxNum++;
+                    break;
+                case 't':
+                    Log.i(TAG , "--------tan--------");
+                    if ((Math.abs(number[ maxNum - 1 ]) / 90) % 2 == 1) {
+                        showError(2);
+                        return;
+                    }
+                    number[ maxNum - 1 ] = Math.tan((number[ maxNum - 1 ] / 180) * pi);
+                    maxNum++;
+                    break;
+                case 'n':
+                    Log.i(TAG , "--------ln--------");
+                    if (number[ maxNum - 1 ] <= 0) {
+                        showError(2);
+                        return;
+                    }
+                    number[ maxNum - 1 ] = Math.log(number[ maxNum - 1 ]);
+                    maxNum++;
+                    break;
+                case 'l':
+                    Log.i(TAG , "--------log--------");
+                    if (number[ maxNum - 1 ] <= 0) {
+                        showError(2);
+                        return;
+                    }
+                    number[ maxNum - 2 ] = myLog(number[maxNum - 2], number[maxNum - 1]);
+                    maxNum++;
+                    break;
+                case '!':
+                    Log.i(TAG , "--------阶乘--------");
+                    if (number[maxNum - 1] < 0) {
+                        showError(2);
+                        return;
+                    }
+                    double sum = 1;
+                    for (int j = 1; j <= number[maxNum - 1]; j++) {
+                        sum = sum * j;
+                    }
+                    Log.i(TAG , "maxNum:" + maxNum);
+                    number[maxNum - 1] = sum;
+                    maxNum++;
+                    break;
+                default:
+                    break;
+            }
+            maxNum--;
+            maxOp--;
+        }
 
+        Log.i(TAG, "--------INPUT--------");
+        et_OUTPUT.setText(String.valueOf(number[0]));
+    }
 
     /**
      * 判断DEL的字数
@@ -479,17 +583,15 @@ public class SecondActivity extends Activity implements View.OnClickListener{
         }
     }
 
-
     /**
-     * log
+     * myLog
      * @param base
      * @param value
      * @return
      */
-    private double log(double base, double value){
+    private double myLog(double base, double value){
         return Math.log(value) / Math.log(base);
     }
-
 
     /**
      * 错误提示

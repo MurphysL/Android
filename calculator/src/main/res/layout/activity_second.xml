@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:textColor="@color/colorBlack"
+        android:textSize="55dp"
         android:gravity="right|bottom"
         android:background="@drawable/shape"
         android:editable="false"

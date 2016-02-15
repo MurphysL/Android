@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.StringTokenizer;
+
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener,
         View.OnTouchListener,View.OnClickListener{
 
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         Log.i(TAG, "--------onCreate--------");
 
         super.onCreate(savedInstanceState);
@@ -289,6 +292,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         //把对象转换成String类型
         String str = et_INPUT.getText().toString();
 
+        char c = ' ';
+
         switch (v.getId()){
             case R.id.bt_0:
             case R.id.bt_1:
@@ -301,12 +306,15 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             case R.id.bt_8:
             case R.id.bt_9:
             case R.id.bt_point:
-                if(flag){
-                    flag = false;
-                    str ="";
-                    et_INPUT.setText("");
+                if( str.length() >= 2 ) {
+                    c = str.charAt(str.length() - 1);
+                    if(c == '-' || c == '+' || c == '*' || c == '/') {
+                        et_INPUT.setText(str + ((Button) v).getText());
+                        autoGetResult();
+                    }
+                }else{
+                    et_INPUT.setText(str + ((Button) v).getText());
                 }
-                et_INPUT.setText(str + ((Button)v).getText());
                 break;
             case R.id.bt_add:
             case R.id.bt_decrease:
@@ -317,12 +325,13 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                     str ="";
                     et_INPUT.setText("");
                 }
-                et_INPUT.setText(str + " " + ((Button) v).getText() + " ");
+                et_INPUT.setText(str + ((Button) v).getText());
                 break;
             case R.id.bt_C:
                 flag = false;
                 str ="";
                 et_INPUT.setText("");
+                et_OUTPUT.setText("");
                 break;
             case R.id.bt_DEL:
                 if(str != null && !str.equals("")){
@@ -337,73 +346,384 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     }
 
     /**
+     * 自动运算结果
+     */
+    private void autoGetResult() {
+
+        Log.i(TAG, "--------autoGetResult--------");
+
+        int rank = 0;//括号优先级
+        int temp = 0;//符号优先级
+
+        int plus_minus_flag = 1;// flag为正负数的计数器，1为正数，-1为负数
+        char operator[]  = new char[200];// operator[]保存运算符
+        int opRank[] = new int[200];;// 运算符的优先级
+        int maxOp = 0;
+        double number[] = new double[200];//保存数字
+        int maxNum = 0;
+        String num;//记录数字
+        char ch;
+
+        String str = et_INPUT.getText().toString();
+        StringTokenizer expToken = new StringTokenizer(str , "+-*/" );//第一个参数就是要分隔的String，第二个是分隔字符集合
+
+        Log.i(TAG, "--------开始计算--------");
+
+        //直接按等号
+        if (str == null || str.equals("")) {
+            return;
+        }
+
+        //遍历字符串
+        for(int i = 0;i < str.length();i ++){
+
+            char c = str.charAt(i);
+
+            //判断正负数
+            if(i == 0) {
+                if (c == '-') {
+                    plus_minus_flag = -1;
+                }
+            }else if( str.charAt(i - 1) == '(' && c == '-'){
+                plus_minus_flag = -1;
+            }
+
+            //取得数字
+            if(c >= '0' && c <= '9' || c == '.'){
+
+                Log.i(TAG , "--------数字--------");
+
+                //取得符号后的整个数字
+                num = expToken.nextToken();
+                Log.i(TAG ,"expToken:" + num);
+
+                ch = c;
+                Log.i(TAG ,c + "--->" + i);
+
+                while(i < str.length() && (ch <= '9' && ch >= '0' || ch == '.')){
+                    ch = str.charAt(i++);
+                }
+                Log.i(TAG , c + "--->" + i);
+                if ( i >= str.length() ) {
+                    i -= 1;
+                }else {
+                    i -= 2;
+                }
+
+                Log.i(TAG , c + "--->" + i);
+
+                //为.
+                if (num .compareTo(".") == 0) {
+                    number[maxNum ++] = 0;
+                }
+                // 将正负符号转移给数字
+                else {
+                    //字符串转换为double类型
+                    number[maxNum] = Double.parseDouble(num) * plus_minus_flag;
+                    Log.i( TAG , "number" + "[" + maxNum + "]" + ":" + number[maxNum]);
+                    maxNum++;
+                    //正负标识初始化
+                    plus_minus_flag = 1;
+                }
+            }
+
+            Log.i(TAG, "--------优先级--------");
+
+            //------[ 1 + 2 * 5 * ( 6 - ( - 7 * 2 )) / 1 ]------
+            //------    1   2   2 r4  5 r8    10 -r8 2    ------
+            if(c == '(')
+                rank += 4;
+            if(c == ')')
+                rank -= 4;
+            if(c == '-' && plus_minus_flag == 1 || c == '+' || c == '*' || c == '/' ||
+                    c == 's' || c == 'c' || c == 't' || c == 'l' || c == 'n' || c == '!' || c == '√' || c == '^'){
+                switch (c){
+                    case '+':
+                    case '-':
+                        temp = 1 + rank;
+                        break;
+                    case '*':
+                    case '/':
+                        temp = 2 + rank;
+                        break;
+                    default:
+                        break;
+                }
+
+                Log.i(TAG, "--------符号运算--------");
+
+                if( maxOp == 0 || opRank[ maxOp - 1 ] < temp ){
+                    opRank[maxOp] = temp;
+                    Log.i(TAG , "opRank[maxOp]:" + opRank[maxOp]);
+                    operator[maxOp] = c;
+                    Log.i(TAG , "operator[maxOp]:" + operator[maxOp]);
+                    maxOp++;
+                }else{
+                    while (maxOp > 0 && opRank[ maxOp - 1 ] >= temp) {
+                        switch (operator[ maxOp - 1 ]) {
+                            case '+':
+                                Log.i(TAG , "--------加--------");
+                                number[ maxNum - 2 ] += number[ maxNum - 1 ];
+                                break;
+                            case '-':
+                                Log.i(TAG , "--------减--------");
+                                number[ maxNum - 2 ] -= number[ maxNum - 1];
+                                break;
+                            case '*':
+                                Log.i(TAG , "--------乘--------");
+                                number[ maxNum - 2 ] *= number[ maxNum - 1 ];
+                                break;
+                            case '/':
+                                Log.i(TAG , "--------除--------");
+                                if(number[ maxNum - 1 ] == 0){
+                                    et_INPUT.setText("");
+                                    showError(1);
+                                    return;
+                                }
+                                number[ maxNum - 2 ] /= number[ maxNum - 1 ];
+                                break;
+                            default:
+                                break;
+                        }
+                        maxNum--;
+                        maxOp--;
+                    }
+                    opRank[maxOp] = temp;
+                    operator[maxOp] = c;
+                    maxOp++;
+                }
+            }
+        }
+        while (maxOp > 0){
+            switch (operator[ maxOp - 1 ]) {
+                case '+':
+                    Log.i(TAG , "--------加--------");
+                    number[ maxNum - 2 ] += number[ maxNum - 1 ];
+                    break;
+                case '-':
+                    Log.i(TAG , "--------减--------");
+                    number[ maxNum - 2 ] -= number[ maxNum - 1];
+                    break;
+                case '*':
+                    Log.i(TAG , "--------乘--------");
+                    number[ maxNum - 2 ] *= number[ maxNum - 1 ];
+                    break;
+                case '/':
+                    Log.i(TAG , "--------除--------");
+                    if(number[ maxNum - 1 ] == 0){
+                        et_INPUT.setText("");
+                        showError(1);
+                        return;
+                    }
+                    number[ maxNum - 2 ] /= number[ maxNum - 1 ];
+                    break;
+                default:
+                    break;
+            }
+            maxNum--;
+            maxOp--;
+        }
+
+        Log.i(TAG, "--------INPUT--------");
+        et_OUTPUT.setText(String.valueOf(number[0]));
+    }
+
+    /**
      * 运算结果
      */
     private void getResult() {
 
         Log.i(TAG, "--------getResult--------");
 
+        int rank = 0;//括号优先级
+        int temp = 0;//符号优先级
+
+        int plus_minus_flag = 1;// flag为正负数的计数器，1为正数，-1为负数
+        char operator[]  = new char[200];// operator[]保存运算符
+        int opRank[] = new int[200];;// 运算符的优先级
+        int maxOp = 0;
+        double number[] = new double[200];//保存数字
+        int maxNum = 0;
+        String num;//记录数字
+        char ch;
+
         String str = et_INPUT.getText().toString();
+        StringTokenizer expToken = new StringTokenizer(str , "+-*/" );//第一个参数就是要分隔的String，第二个是分隔字符集合
+
+        Log.i(TAG, "--------开始计算--------");
+
+        //直接按等号
         if (str == null || str.equals("")) {
             return;
         }
-        //是否包含空格,即无运算符
-        if (!str.contains(" ")) {
-            return;
-        }
-        if(flag){
-            flag = false;
-            return;
-        }
-        flag = true;
-        double result = 0;
-        String s1 = str.substring(0, str.indexOf(" "));//运算符前面的字符串
-        String op = str.substring(str.indexOf(" ") + 1, str.indexOf(" ") + 2);
-        String s2 = str.substring(str.indexOf(" ") + 3);
-        if (!s1.equals(" ") && !s2.equals(" ")) {
-            double d1 = Double.parseDouble(s1);
-            double d2 = Double.parseDouble(s2);
-            if (op.equals("+")) {
-                result = d1 + d2;
-            } else if (op.equals("-")) {
-                result = d1 - d2;
-            } else if (op.equals("*")) {
-                result = d1 * d2;
-            } else if (op.equals("/")) {
 
-                if (d2 == 0) {
-                    result = 0;
-                } else {
-                    result = d1 / d2;
+        //遍历字符串
+        for(int i = 0;i < str.length();i ++){
+
+            char c = str.charAt(i);
+
+            //判断正负数
+            if(i == 0) {
+                if (c == '-') {
+                    plus_minus_flag = -1;
+                }
+            }else if( str.charAt(i - 1) == '(' && c == '-'){
+                plus_minus_flag = -1;
+            }
+
+            //取得数字
+            if(c >= '0' && c <= '9' || c == '.'){
+
+                Log.i(TAG , "--------数字--------");
+
+                //取得符号后的整个数字
+                num = expToken.nextToken();
+                Log.i(TAG ,"expToken:" + num);
+
+                ch = c;
+                Log.i(TAG ,c + "--->" + i);
+
+                while(i < str.length() && (ch <= '9' && ch >= '0' || ch == '.')){
+                    ch = str.charAt(i++);
+                }
+                Log.i(TAG , c + "--->" + i);
+                if ( i >= str.length() ) {
+                    i -= 1;
+                }else {
+                    i -= 2;
+                }
+
+                Log.i(TAG , c + "--->" + i);
+
+                //为.
+                if (num .compareTo(".") == 0) {
+                    number[maxNum ++] = 0;
+                }
+                // 将正负符号转移给数字
+                else {
+                    //字符串转换为double类型
+                    number[maxNum] = Double.parseDouble(num) * plus_minus_flag;
+                    Log.i( TAG , "number" + "[" + maxNum + "]" + ":" + number[maxNum]);
+                    maxNum++;
+                    //正负标识初始化
+                    plus_minus_flag = 1;
                 }
             }
-            if (!s1.contains(".") && !s2.contains(".") && !op.equals("/")) {
-                int r = (int) result;
-                et_INPUT.setText(r + "");
-            } else {
-                et_INPUT.setText(result + "");
+
+            Log.i(TAG, "--------优先级--------");
+
+            //------[ 1 + 2 * 5 * ( 6 - ( - 7 * 2 )) / 1 ]------
+            //------    1   2   2 r4  5 r8    10 -r8 2    ------
+            if(c == '(')
+                rank += 4;
+            if(c == ')')
+                rank -= 4;
+            if(c == '-' && plus_minus_flag == 1 || c == '+' || c == '*' || c == '/' ||
+                    c == 's' || c == 'c' || c == 't' || c == 'l' || c == 'n' || c == '!' || c == '√' || c == '^'){
+                switch (c){
+                    case '+':
+                    case '-':
+                        temp = 1 + rank;
+                        break;
+                    case '*':
+                    case '/':
+                        temp = 2 + rank;
+                        break;
+                    default:
+                        break;
+                }
+
+                Log.i(TAG, "--------符号运算--------");
+
+                if( maxOp == 0 || opRank[ maxOp - 1 ] < temp ){
+                    opRank[maxOp] = temp;
+                    Log.i(TAG , "opRank[maxOp]:" + opRank[maxOp]);
+                    operator[maxOp] = c;
+                    Log.i(TAG , "operator[maxOp]:" + operator[maxOp]);
+                    maxOp++;
+                }else{
+                    while (maxOp > 0 && opRank[ maxOp - 1 ] >= temp) {
+                        switch (operator[ maxOp - 1 ]) {
+                            case '+':
+                                Log.i(TAG , "--------加--------");
+                                number[ maxNum - 2 ] += number[ maxNum - 1 ];
+                                break;
+                            case '-':
+                                Log.i(TAG , "--------减--------");
+                                number[ maxNum - 2 ] -= number[ maxNum - 1];
+                                break;
+                            case '*':
+                                Log.i(TAG , "--------乘--------");
+                                number[ maxNum - 2 ] *= number[ maxNum - 1 ];
+                                break;
+                            case '/':
+                                Log.i(TAG , "--------除--------");
+                                if(number[ maxNum - 1 ] == 0){
+                                    et_INPUT.setText("");
+                                    showError(1);
+                                    return;
+                                }
+                                number[ maxNum - 2 ] /= number[ maxNum - 1 ];
+                                break;
+                            default:
+                                break;
+                        }
+                        maxNum--;
+                        maxOp--;
+                    }
+                    opRank[maxOp] = temp;
+                    operator[maxOp] = c;
+                    maxOp++;
+                }
             }
-        } else if (!s1.equals(" ") && s2.equals(" ")) {
-            et_INPUT.setText(str);
-        } else if (s1.equals(" ") && !s2.equals(" ")) {
-            double d2 = Double.parseDouble(s2);
-            if (op.equals("+")) {
-                result = 0 + d2;
-            } else if (op.equals("-")) {
-                result = 0 - d2;
-            } else if (op.equals("*")) {
-                result = 0;
-            } else if (op.equals("/")) {
-                result = 0;
+        }
+        while (maxOp > 0){
+            switch (operator[ maxOp - 1 ]) {
+                case '+':
+                    Log.i(TAG , "--------加--------");
+                    number[ maxNum - 2 ] += number[ maxNum - 1 ];
+                    break;
+                case '-':
+                    Log.i(TAG , "--------减--------");
+                    number[ maxNum - 2 ] -= number[ maxNum - 1];
+                    break;
+                case '*':
+                    Log.i(TAG , "--------乘--------");
+                    number[ maxNum - 2 ] *= number[ maxNum - 1 ];
+                    break;
+                case '/':
+                    Log.i(TAG , "--------除--------");
+                    if(number[ maxNum - 1 ] == 0){
+                        et_INPUT.setText("");
+                        showError(1);
+                        return;
+                    }
+                    number[ maxNum - 2 ] /= number[ maxNum - 1 ];
+                    break;
+                default:
+                    break;
             }
-            if (!s2.contains(".")) {
-                int r = (int) result;
-                et_INPUT.setText(r + "");
-            } else {
-                et_INPUT.setText(result + "");
-            }
-        }else {
-            et_INPUT.setText(str);
+            maxNum--;
+            maxOp--;
+        }
+
+        Log.i(TAG, "--------INPUT--------");
+        et_INPUT.setText(String.valueOf(number[0]));
+        et_OUTPUT.setText("");
+    }
+
+    /**
+     * 错误提示
+     * @param code
+     */
+    public void showError(int code) {
+        switch (code) {
+            case 1:
+                Toast.makeText(this,"零不能作除数",Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                Toast.makeText(this,"用法错误",Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
