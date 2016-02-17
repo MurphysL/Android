@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener,
@@ -523,9 +524,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             maxNum--;
             maxOp--;
         }
-
         Log.i(TAG, "--------INPUT--------");
-        et_OUTPUT.setText(String.valueOf(number[0]));
+        et_OUTPUT.setText(round(number[0]));
     }
 
     /**
@@ -708,8 +708,19 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         }
 
         Log.i(TAG, "--------INPUT--------");
-        et_INPUT.setText(String.valueOf(number[0]));
+
+        et_INPUT.setText(round(number[0]));
         et_OUTPUT.setText("");
+    }
+
+    /**
+     * 控制格式
+     * @param n
+     * @return
+     */
+    public String round(double n) {
+        DecimalFormat format = new DecimalFormat("0.##########");
+        return format.format(n);
     }
 
     /**
