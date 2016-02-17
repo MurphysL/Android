@@ -1,13 +1,18 @@
 package com.example.lenovo.calculator;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.StringTokenizer;
 
 /**
@@ -17,7 +22,8 @@ import java.util.StringTokenizer;
  * @time: 2016/2/2 21:30
  */
 
-public class SecondActivity extends Activity implements View.OnClickListener{
+public class SecondActivity extends Activity implements View.OnClickListener/*,
+        GestureDetector.OnGestureListener,View.OnTouchListener*/{
 
     public final static String TAG = "Calculator";
 
@@ -59,6 +65,11 @@ public class SecondActivity extends Activity implements View.OnClickListener{
     private double pi = Math.PI;
     private static final double e_num = 2.7182818;
 
+    GestureDetector gestureDetector;
+
+    private static final int SWIPE_MIN_DISTANCE = 20;//滑动距离阙值
+    private static final int SWIPE_THRESHOLD_VELOCITY = 10;//滑动速度阙值
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -72,6 +83,11 @@ public class SecondActivity extends Activity implements View.OnClickListener{
      * 初始化
      */
     private void init(){
+
+        /*gestureDetector = new GestureDetector(this);
+        LinearLayout layout = (LinearLayout)findViewById(R.id.linearlayout);
+        layout.setOnTouchListener(this);
+        layout.setLongClickable(true);*/
 
         //按键实例化
         bt_0 = (Button) findViewById(R.id.sbt_0);
@@ -138,6 +154,256 @@ public class SecondActivity extends Activity implements View.OnClickListener{
         bt_RADICAL.setOnClickListener(this);
         bt_POWER.setOnClickListener(this);
         bt_FACTORIAL.setOnClickListener(this);
+
+        /*//解决按键冲突
+        et_INPUT.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        et_OUTPUT.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_CLEAN.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_EQUAL.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_DEL.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_POINT.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_PLUS.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_DIVIDE.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_MULT.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_COS.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_SIN.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_TAN.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_LN.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_LOG.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_R_BRACKET.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_L_BRACKET.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_E.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_PI.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_RADICAL.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_POWER.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_FACTORIAL.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_3.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_4.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_5.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_6.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+
+        bt_7.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_8.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_9.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        bt_0.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });*/
     }
 
     /**
@@ -176,9 +442,12 @@ public class SecondActivity extends Activity implements View.OnClickListener{
             case R.id.sbt_point:
                 et_INPUT.setText( str2 + ((Button) v).getText() );
                 break;
-            case R.id.sbt_factorial:
+
             case R.id.sbt_log:
                 et_INPUT.setText( str2 + ((Button) v).getText() + '(');
+                break;
+            case R.id.sbt_factorial:
+                et_INPUT.setText( str2 + ((Button) v).getText() + ' ');
                 break;
             case R.id.sbt_add:
             case R.id.sbt_decrease:
@@ -251,7 +520,7 @@ public class SecondActivity extends Activity implements View.OnClickListener{
         str2 = str2.replaceAll("log", "l");
         str2 = str2.replaceAll("ln", "n");
 
-        StringTokenizer expToken = new StringTokenizer(str2 , "+-*/()sctln!√^" );//第一个参数就是要分隔的String，第二个是分隔字符集合
+        StringTokenizer expToken = new StringTokenizer(str2 , "+-*/()sctln!√^ " );//第一个参数就是要分隔的String，第二个是分隔字符集合
 
         Log.i(TAG, "--------开始计算--------");
 
@@ -561,7 +830,17 @@ public class SecondActivity extends Activity implements View.OnClickListener{
         }
 
         Log.i(TAG, "--------INPUT--------");
-        et_OUTPUT.setText(String.valueOf(number[0]));
+        et_OUTPUT.setText(round(number[0]));
+    }
+
+    /**
+     * 控制格式
+     * @param n
+     * @return
+     */
+    public String round(double n) {
+        DecimalFormat format = new DecimalFormat("0.##########");
+        return format.format(n);
     }
 
     /**
@@ -608,4 +887,47 @@ public class SecondActivity extends Activity implements View.OnClickListener{
         }
     }
 
+    /*@Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+
+        Log.i(TAG, "--------onFling--------");
+
+        if((e1.getX() - e2.getX()) > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)
+        {
+            Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "简单计算器", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return gestureDetector.onTouchEvent(event);
+    }*/
 }
