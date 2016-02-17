@@ -529,6 +529,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
             return;
         }
 
+
         //遍历字符串
         for(int i = 0;i < str2.length();i ++){
 
