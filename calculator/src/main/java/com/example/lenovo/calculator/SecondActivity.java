@@ -570,7 +570,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
 
                 //为.
                 if (num .compareTo(".") == 0) {
-                    
+
                     number[maxNum ++] = 0;
                 }else{
                     //字符串转换为double类型
