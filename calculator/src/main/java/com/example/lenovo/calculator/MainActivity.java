@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         setContentView(R.layout.activity_main);
 
         init();
-
     }
 
     /**
