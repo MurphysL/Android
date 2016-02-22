@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private EditText et_INPUT;
     private EditText et_OUTPUT;
 
-    boolean flag;//清空标识
-
     private GestureDetector gestureDetector;//手势检测
 
     private static final int SWIPE_MIN_DISTANCE = 20;//滑动距离阙值
@@ -66,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      */
     private void init(){
         Log.i(TAG, "--------init--------");
-
-        flag = false;
 
         gestureDetector = new GestureDetector(this);
         LinearLayout layout = (LinearLayout)findViewById(R.id.linearlayout);
@@ -306,43 +302,45 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             case R.id.bt_8:
             case R.id.bt_9:
             case R.id.bt_point:
-                if( str.length() >= 2 ) {
+                if(str.length() >= 2){
                     c = str.charAt(str.length() - 1);
-                    if(c == '-' || c == '+' || c == '*' || c == '/') {
+                    if(c == '-' || c == '+' || c == '*' || c == '/'){
                         et_INPUT.setText(str + ((Button) v).getText());
                         autoGetResult();
+                    }else{
+                        et_INPUT.setText(str + ((Button) v).getText());
                     }
                 }else{
                     et_INPUT.setText(str + ((Button) v).getText());
                 }
+                et_INPUT.setText(str + ((Button) v).getText());
                 break;
             case R.id.bt_add:
             case R.id.bt_decrease:
             case R.id.bt_mult:
             case R.id.bt_division:
-                if(flag){
-                    flag = false;
-                    str ="";
-                    et_INPUT.setText("");
-                }
                 et_INPUT.setText(str + ((Button) v).getText());
                 break;
             case R.id.bt_C:
-                flag = false;
-                str ="";
                 et_INPUT.setText("");
                 et_OUTPUT.setText("");
                 break;
             case R.id.bt_DEL:
                 if(str != null && !str.equals("")){
-                    et_INPUT.setText(str.substring(0,str.length() - 1));
+                    Log.i(TAG, "--------lengthDEL--------" + str.length());
+                    Log.i(TAG, "--------lengthDEL--------" + str);
+                    et_INPUT.setText(str.substring(0 , str.length() - 1));
+                    Log.i(TAG, "--------lengthDEL--------" + str);
+                    Log.i(TAG, "--------lengthDEL--------" + str.length());
                 }
+                break;
             case R.id.bt_eq:
                 getResult();
                 break;
             default:
                 break;
         }
+        Log.i(TAG, "--------length--------" + str.length());
     }
 
     /**
@@ -364,27 +362,27 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         String num;//记录数字
         char ch;
 
-        String str = et_INPUT.getText().toString();
-        StringTokenizer expToken = new StringTokenizer(str , "+-*/" );//第一个参数就是要分隔的String，第二个是分隔字符集合
+        String auto_str = et_INPUT.getText().toString();
+        StringTokenizer expToken = new StringTokenizer(auto_str , "+-*//*" );//第一个参数就是要分隔的String，第二个是分隔字符集合
 
         Log.i(TAG, "--------开始计算--------");
 
         //直接按等号
-        if (str == null || str.equals("")) {
+        if (auto_str == null || auto_str.equals("")) {
             return;
         }
 
         //遍历字符串
-        for(int i = 0;i < str.length();i ++){
+        for(int i = 0;i < auto_str.length();i ++){
 
-            char c = str.charAt(i);
+            char c = auto_str.charAt(i);
 
             //判断正负数
             if(i == 0) {
                 if (c == '-') {
                     plus_minus_flag = -1;
                 }
-            }else if( str.charAt(i - 1) == '(' && c == '-'){
+            }else if( auto_str.charAt(i - 1) == '(' && c == '-'){
                 plus_minus_flag = -1;
             }
 
@@ -400,11 +398,11 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 ch = c;
                 Log.i(TAG ,c + "--->" + i);
 
-                while(i < str.length() && (ch <= '9' && ch >= '0' || ch == '.')){
-                    ch = str.charAt(i++);
+                while(i < auto_str.length() && (ch <= '9' && ch >= '0' || ch == '.')){
+                    ch = auto_str.charAt(i++);
                 }
                 Log.i(TAG , c + "--->" + i);
-                if ( i >= str.length() ) {
+                if ( i >= auto_str.length() ) {
                     i -= 1;
                 }else {
                     i -= 2;

@@ -442,7 +442,6 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
             case R.id.sbt_point:
                 et_INPUT.setText( str2 + ((Button) v).getText() );
                 break;
-
             case R.id.sbt_log:
                 et_INPUT.setText( str2 + ((Button) v).getText() + '(');
                 break;
