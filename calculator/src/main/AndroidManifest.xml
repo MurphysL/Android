@@ -15,7 +15,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondActivity"></activity>
+        <activity
+            android:theme="@style/AppTheme.FullScreen"
+            android:name=".SecondActivity"></activity>
+        <activity
+            android:theme="@style/AppTheme.FullScreen"
+            android:name=".FamilyActivity"></activity>
     </application>
 
 </manifest>

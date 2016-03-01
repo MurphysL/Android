@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     //输入
-    <EditText
+    <TextView
         android:id="@+id/et_input3"
         android:layout_weight="1"
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
         />
 
     //输出
-    <EditText
+    <TextView
         android:id="@+id/et_input4"
         android:layout_weight="1"
         android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                 android:text="!"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -61,7 +61,7 @@
                 android:text="^"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -71,7 +71,7 @@
                 android:text="√"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
@@ -81,7 +81,7 @@
                 android:text="π"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
@@ -91,7 +91,7 @@
                 android:text="C"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -109,7 +109,7 @@
                 android:text="sin"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -119,7 +119,7 @@
                 android:text="("
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -129,7 +129,7 @@
                 android:text=")"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -139,7 +139,7 @@
                 android:text="e"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -149,7 +149,7 @@
                 android:text="DEL"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
@@ -167,7 +167,7 @@
                 android:text="cos"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
@@ -177,7 +177,7 @@
                 android:text="7"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -187,7 +187,7 @@
                 android:text="8"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -197,17 +197,17 @@
                 android:text="9"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
 
             <Button
                 android:id="@+id/sbt_division"
-                android:text="/"
+                android:text="÷"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -225,7 +225,7 @@
                 android:text="tan"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
@@ -235,7 +235,7 @@
                 android:text="4"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -245,7 +245,7 @@
                 android:text="5"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -255,17 +255,17 @@
                 android:text="6"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/sbt_mult"
-                android:text="*"
+                android:text="×"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
@@ -284,7 +284,7 @@
                 android:text="ln"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -294,7 +294,7 @@
                 android:text="1"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
@@ -304,7 +304,7 @@
                 android:text="2"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
@@ -314,7 +314,7 @@
                 android:text="3"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
@@ -324,7 +324,7 @@
                 android:text="-"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -342,7 +342,7 @@
                 android:text="log"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -352,7 +352,7 @@
                 android:text="0"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -362,7 +362,7 @@
                 android:text="."
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
@@ -382,7 +382,7 @@
                 android:text="+"
                 android:textSize="20dp"
                 android:gravity="center"
-                android:background="@drawable/gray_selector"
+                android:background="@drawable/gray2_selector"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />

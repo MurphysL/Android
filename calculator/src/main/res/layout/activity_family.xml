@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/fet_input"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:textColor="@color/colorBlack"
+        android:gravity="right|bottom"
+        android:background="@drawable/shape"
+        android:editable="false"
+        />
+
+    <TextView
+        android:id="@+id/fet_output"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="55dp"
+        android:gravity="right|bottom"
+        android:background="@drawable/shape"
+        android:editable="false"
+        />
+
+    //按键区
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="3.5"
+        android:gravity="center_horizontal"
+        android:layout_height="0dp"
+        android:orientation="vertical">
+
+        //1
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+            <Button
+                android:id="@+id/fbt_C"
+                android:text="C"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/fbt_DEL"
+                android:text="DEL"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/fbt_s"
+                android:text="的"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/fbt_equal"
+                android:text="="
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/blue_selector"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        //2
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+            <Button
+                android:id="@+id/bt_father"
+                android:text="父"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bt_mather"
+                android:text="母"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bt_husband"
+                android:text="夫"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bt_wife"
+                android:text="妻"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        //3
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+            <Button
+                android:id="@+id/bt_elder_brother"
+                android:text="兄"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bt_younger_brother"
+                android:text="弟"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bt_elder_sisther"
+                android:text="姐"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bt_younger_sisther"
+                android:text="妹"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        //4
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+            <Button
+                android:id="@+id/bt_son"
+                android:text="子"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bt_daughter"
+                android:text="女"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bt_elder"
+                android:text="长"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bt_younger"
+                android:text="幼"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:background="@drawable/gray2_selector"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

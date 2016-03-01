@@ -1,6 +1,5 @@
 package com.example.lenovo.calculator;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
@@ -22,8 +22,7 @@ import java.util.StringTokenizer;
  * @time: 2016/2/2 21:30
  */
 
-public class SecondActivity extends Activity implements View.OnClickListener/*,
-        GestureDetector.OnGestureListener,View.OnTouchListener*/{
+public class SecondActivity extends MainActivity{
 
     public final static String TAG = "Calculator";
 
@@ -59,19 +58,19 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
     private Button bt_DEL;//删除
     private Button bt_EQUAL;//等于
 
-    private EditText et_INPUT;
-    private EditText et_OUTPUT;
+    private TextView et_INPUT;
+    private TextView et_OUTPUT;
 
     private double pi = Math.PI;
-    private static final double e_num = 2.7182818;
+    private static final double e_num = 2.718281828459;
 
-    GestureDetector gestureDetector;
-
+    /*GestureDetector gestureDetector_second;
     private static final int SWIPE_MIN_DISTANCE = 20;//滑动距离阙值
-    private static final int SWIPE_THRESHOLD_VELOCITY = 10;//滑动速度阙值
+    private static final int SWIPE_THRESHOLD_VELOCITY = 10;//滑动速度阙值*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "--------Second onCreate--------");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
@@ -84,7 +83,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
      */
     private void init(){
 
-        /*gestureDetector = new GestureDetector(this);
+        /*gestureDetector_second = new GestureDetector(this);
         LinearLayout layout = (LinearLayout)findViewById(R.id.linearlayout);
         layout.setOnTouchListener(this);
         layout.setLongClickable(true);*/
@@ -120,8 +119,8 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_E = (Button) findViewById(R.id.sbt_e);
         bt_LOG = (Button) findViewById(R.id.sbt_log);
         bt_LN = (Button) findViewById(R.id.sbt_ln);
-        et_INPUT = (EditText) findViewById(R.id.et_input3);
-        et_OUTPUT = (EditText) findViewById(R.id.et_input4);
+        et_INPUT = (TextView) findViewById(R.id.et_input3);
+        et_OUTPUT = (TextView) findViewById(R.id.et_input4);
 
         //绑定监听器
         bt_0.setOnClickListener(this);
@@ -155,11 +154,11 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_POWER.setOnClickListener(this);
         bt_FACTORIAL.setOnClickListener(this);
 
-        /*//解决按键冲突
-        et_INPUT.setOnTouchListener(new View.OnTouchListener() {
+        //解决按键冲突
+        /*et_INPUT.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -167,7 +166,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         et_OUTPUT.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -175,7 +174,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_CLEAN.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -183,7 +182,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_EQUAL.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -191,7 +190,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_DEL.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -199,7 +198,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_POINT.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -207,7 +206,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_PLUS.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -215,7 +214,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_DIVIDE.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -223,7 +222,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_MULT.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -231,7 +230,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_COS.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -239,7 +238,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_SIN.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -247,7 +246,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_TAN.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -255,7 +254,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_LN.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -263,7 +262,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_LOG.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -271,7 +270,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_R_BRACKET.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -279,7 +278,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_L_BRACKET.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -287,7 +286,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_E.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -295,7 +294,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_PI.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -303,7 +302,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_RADICAL.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -311,7 +310,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_POWER.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -319,7 +318,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_FACTORIAL.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -327,7 +326,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_1.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -335,7 +334,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_2.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -343,7 +342,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_3.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -351,7 +350,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_4.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -359,7 +358,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_5.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -367,7 +366,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_6.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -376,7 +375,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_7.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -384,7 +383,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_8.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -392,7 +391,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_9.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });
@@ -400,7 +399,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         bt_0.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureDetector_second.onTouchEvent(event);
                 return false;
             }
         });*/
@@ -429,18 +428,46 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
             case R.id.sbt_7:
             case R.id.sbt_8:
             case R.id.sbt_9:
+                et_INPUT.setText(str2 + ((Button) v).getText());
+                et_OUTPUT.setText(round(getResult2()));
+                break;
+            case R.id.sbt_π:
+            case R.id.sbt_e:
+                if(str2.length() >= 1 && ( str2.charAt(str2.length() - 1) == '.' || str2.charAt(str2.length() - 1) == 'e'
+                        || str2.charAt(str2.length() - 1) == 'π' || (str2.charAt(str2.length() - 1) >= '0'
+                        && str2.charAt(str2.length() - 1) <= '9'))){
+                    showError(2);
+                }else{
+                    et_INPUT.setText(str2 + ((Button) v).getText());
+                    et_OUTPUT.setText(round(getResult2()));
+                }
+                break;
+            case R.id.sbt_point:
+                if(str2.length() >= 1 && (str2.charAt(str2.length() - 1) == '.' || str2.charAt(str2.length() - 1) == 'e'
+                                || str2.charAt(str2.length() - 1) == 'π')){
+                    showError(2);
+                }else{
+                    et_INPUT.setText(str2 + ((Button) v).getText());
+                    et_OUTPUT.setText(round(getResult2()));
+                }
+                break;
             case R.id.sbt_cos:
             case R.id.sbt_sin:
             case R.id.sbt_tan:
-            case R.id.sbt_ln:
             case R.id.sbt_leftbracket:
             case R.id.sbt_rightbracket:
             case R.id.sbt_radical:
-            case R.id.sbt_π:
-            case R.id.sbt_e:
             case R.id.sbt_power:
-            case R.id.sbt_point:
-                et_INPUT.setText( str2 + ((Button) v).getText() );
+                if(str2.length() >= 1 && (str2.charAt(str2.length() - 1) == '.' || str2.charAt(str2.length() - 1) == 'e'
+                        || str2.charAt(str2.length() - 1) == 'π')){
+                    showError(2);
+                }else{
+                    et_INPUT.setText(str2 + ((Button) v).getText());
+                    et_OUTPUT.setText(round(getResult2()));
+                }
+                break;
+            case R.id.sbt_ln:
+                et_INPUT.setText(str2 + ((Button) v).getText());
                 break;
             case R.id.sbt_log:
                 et_INPUT.setText( str2 + ((Button) v).getText() + '(');
@@ -452,7 +479,13 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
             case R.id.sbt_decrease:
             case R.id.sbt_mult:
             case R.id.sbt_division:
-                et_INPUT.setText(str2 + ((Button) v).getText());
+                if(str2.length() >= 2 && (str2.charAt(str2.length() - 1) == '+'||str2.charAt(str2.length() - 1) == '-'||
+                        str2.charAt(str2.length() - 1) == '*'||str2.charAt(str2.length() - 1) == '/'
+                        || str2.charAt(str2.length() - 1) == '.')){
+                    showError(2);
+                }else{
+                    et_INPUT.setText(str2 + ((Button) v).getText());
+                }
                 break;
             case R.id.sbt_Cd:
                 et_INPUT.setText("");
@@ -482,7 +515,8 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                     }
                 }
             case R.id.sbt_equal:
-                getResult2();
+                et_INPUT.setText(round(getResult2()));
+                et_OUTPUT.setText("");
                 break;
             default:
                 break;
@@ -492,7 +526,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
     /**
      * 运算结果
      */
-    private void getResult2() {
+    private double getResult2() {
 
         Log.i(TAG, "-----------------------------------------------------------------------");
         Log.i(TAG, "--------getResult2--------");
@@ -503,7 +537,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
 
         int plus_minus_flag = 1;// flag为正负数的计数器，1为正数，-1为负数
         char operator[]  = new char[200];// operator[]保存运算符
-        int opRank[] = new int[200];;// 运算符的优先级
+        int opRank[] = new int[200];// 运算符的优先级
         int maxOp = 0;
         double number[] = new double[200];//保存数字
         int maxNum = 0;
@@ -519,13 +553,13 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         str2 = str2.replaceAll("log", "l");
         str2 = str2.replaceAll("ln", "n");
 
-        StringTokenizer expToken = new StringTokenizer(str2 , "+-*/()sctln!√^ " );//第一个参数就是要分隔的String，第二个是分隔字符集合
+        StringTokenizer expToken = new StringTokenizer(str2 , "+-×÷()sctln!√^ " );//第一个参数就是要分隔的String，第二个是分隔字符集合
 
         Log.i(TAG, "--------开始计算--------");
 
         //直接按等号
         if (str2 == null || str2.equals("")) {
-            return;
+            return 0;
         }
 
 
@@ -597,15 +631,15 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                 rank += 4;
             if(c == ')')
                 rank -= 4;
-            if(c == '-' && plus_minus_flag == 1 || c == '+' || c == '*' || c == '/' ||
+            if(c == '-' && plus_minus_flag == 1 || c == '+' || c == '×' || c == '÷' ||
                     c == 's' || c == 'c' || c == 't' || c == 'l' || c == 'n' || c == '!' || c == '√' || c == '^'){
                 switch (c){
                     case '+':
                     case '-':
                         temp = 1 + rank;
                         break;
-                    case '*':
-                    case '/':
+                    case '×':
+                    case '÷':
                         temp = 2 + rank;
                         break;
                     case '^':
@@ -649,16 +683,16 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                                 Log.i(TAG , "--------减--------");
                                 number[ maxNum - 2 ] -= number[ maxNum - 1];
                                 break;
-                            case '*':
+                            case '×':
                                 Log.i(TAG , "--------乘--------");
                                 number[ maxNum - 2 ] *= number[ maxNum - 1 ];
                                 break;
-                            case '/':
+                            case '÷':
                                 Log.i(TAG , "--------除--------");
                                 if(number[ maxNum - 1 ] == 0){
                                     et_INPUT.setText("");
                                     showError(1);
-                                    return;
+                                    return 0;
                                 }
                                 number[ maxNum - 2 ] /= number[ maxNum - 1 ];
                                 break;
@@ -666,7 +700,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                                 Log.i(TAG , "--------根--------");
                                 if(number[ maxNum - 2 ] == 0 || (number[ maxNum - 1 ] < 0 && number[ maxNum - 2 ] % 2 == 0)){
                                     showError(2);
-                                    return;
+                                    return 0;
                                 }
                                 number[ maxNum - 2 ] = Math.pow(number[ maxNum - 1 ] , 1 / number[ maxNum - 2 ]);
                                 break;
@@ -688,7 +722,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                                 Log.i(TAG , "--------tan--------");
                                 if ((Math.abs(number[ maxNum - 1 ]) / 90) % 2 == 1) {
                                     showError(2);
-                                    return;
+                                    return 0;
                                 }
                                 number[ maxNum - 1 ] = Math.tan((number[ maxNum - 1 ] / 180) * pi);
                                 maxNum++;
@@ -697,7 +731,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                                 Log.i(TAG , "--------ln--------");
                                 if (number[ maxNum - 1 ] <= 0) {
                                     showError(2);
-                                    return;
+                                    return 0;
                                 }
                                 number[ maxNum - 1 ] = Math.log(number[ maxNum - 1 ]);
                                 maxNum++;
@@ -706,7 +740,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                                 Log.i(TAG , "--------log--------");
                                 if (number[ maxNum - 1 ] <= 0) {
                                     showError(2);
-                                    return;
+                                    return 0;
                                 }
                                 number[ maxNum - 2 ] = myLog(number[maxNum - 2], number[maxNum - 1]);
                                 maxNum++;
@@ -715,7 +749,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                                 Log.i(TAG , "--------阶乘--------");
                                 if (number[maxNum - 1] < 0) {
                                     showError(2);
-                                    return;
+                                    return 0;
                                 }
                                 double sum = 1;
                                 for (int j = 1; j <= number[maxNum - 1]; j++) {
@@ -747,16 +781,16 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                     Log.i(TAG , "--------减--------");
                     number[ maxNum - 2 ] -= number[ maxNum - 1];
                     break;
-                case '*':
+                case '×':
                     Log.i(TAG , "--------乘--------");
                     number[ maxNum - 2 ] *= number[ maxNum - 1 ];
                     break;
-                case '/':
+                case '÷':
                     Log.i(TAG , "--------除--------");
                     if(number[ maxNum - 1 ] == 0){
                         et_INPUT.setText("");
                         showError(1);
-                        return;
+                        return 0;
                     }
                     number[ maxNum - 2 ] /= number[ maxNum - 1 ];
                     break;
@@ -764,7 +798,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                     Log.i(TAG , "--------根--------");
                     if(number[ maxNum - 2 ] == 0 || (number[ maxNum - 1 ] < 0 && number[ maxNum - 2 ] % 2 == 0)){
                         showError(2);
-                        return;
+                        return 0;
                     }
                     number[ maxNum - 2 ] = Math.pow(number[ maxNum - 1 ] , 1 / number[ maxNum - 2 ]);
                     break;
@@ -786,7 +820,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                     Log.i(TAG , "--------tan--------");
                     if ((Math.abs(number[ maxNum - 1 ]) / 90) % 2 == 1) {
                         showError(2);
-                        return;
+                        return 0;
                     }
                     number[ maxNum - 1 ] = Math.tan((number[ maxNum - 1 ] / 180) * pi);
                     maxNum++;
@@ -795,7 +829,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                     Log.i(TAG , "--------ln--------");
                     if (number[ maxNum - 1 ] <= 0) {
                         showError(2);
-                        return;
+                        return 0;
                     }
                     number[ maxNum - 1 ] = Math.log(number[ maxNum - 1 ]);
                     maxNum++;
@@ -804,7 +838,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                     Log.i(TAG , "--------log--------");
                     if (number[ maxNum - 1 ] <= 0) {
                         showError(2);
-                        return;
+                        return 0;
                     }
                     number[ maxNum - 2 ] = myLog(number[maxNum - 2], number[maxNum - 1]);
                     maxNum++;
@@ -813,7 +847,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
                     Log.i(TAG , "--------阶乘--------");
                     if (number[maxNum - 1] < 0) {
                         showError(2);
-                        return;
+                        return 0;
                     }
                     double sum = 1;
                     for (int j = 1; j <= number[maxNum - 1]; j++) {
@@ -831,7 +865,8 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
         }
 
         Log.i(TAG, "--------INPUT--------");
-        et_OUTPUT.setText(round(number[0]));
+        //et_OUTPUT.setText(round(number[0]));
+        return number[0];
     }
 
     /**
@@ -850,13 +885,13 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
      * @return
      */
     private int delNumber(String str2) {
+
         if ((str2.charAt(str2.length() - 1) == 'n' && str2.charAt(str2.length() - 2) == 'i' && str2.charAt(str2.length() - 3) == 's')
                 || (str2.charAt(str2.length() - 1) == 's' && str2.charAt(str2.length() - 2) == 'o' && str2.charAt(str2.length() - 3) == 'c')
                 || (str2.charAt(str2.length() - 1) == 'n' && str2.charAt(str2.length() - 2) == 'a' && str2.charAt(str2.length() - 3) == 't')
                 || (str2.charAt(str2.length() - 1) == 'g' && str2.charAt(str2.length() - 2) == 'o' && str2.charAt(str2.length() - 3) == 'l')) {
             return 3;
-        } else if ((str2.charAt(str2.length() - 1) == 'n' && str2.charAt(str2.length() - 2) == 'l')
-                || (str2.charAt(str2.length() - 1) == '!' && str2.charAt(str2.length() - 2) == 'n')){
+        } else if (str2.charAt(str2.length() - 1) == 'n' && str2.charAt(str2.length() - 2) == 'l') {
             return 2;
         } else {
             return 1;
@@ -918,7 +953,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
 
         Log.i(TAG, "--------onFling--------");
 
-        if((e1.getX() - e2.getX()) > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)
+        if((e2.getX() - e1.getX()) > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)
         {
             Intent intent = new Intent(SecondActivity.this, MainActivity.class);
             startActivity(intent);
@@ -929,6 +964,7 @@ public class SecondActivity extends Activity implements View.OnClickListener/*,
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        return gestureDetector.onTouchEvent(event);
+        return gestureDetector_second.onTouchEvent(event);
     }*/
+
 }
