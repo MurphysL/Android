@@ -7,11 +7,15 @@
     android:layout_height="match_parent">
 
     //输入
-    <TextView
+    <com.example.lenovo.calculator.MarqueeTextView
         android:id="@+id/et_input3"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="0dp"
+        android:textSize="35dp"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:focusable="true"
         android:textColor="@color/colorBlack"
         android:gravity="right|bottom"
         android:background="@drawable/shape"
@@ -19,11 +23,14 @@
         />
 
     //输出
-    <TextView
+    <com.example.lenovo.calculator.MarqueeTextView
         android:id="@+id/et_input4"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dip"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:focusable="true"
         android:textColor="@color/colorBlack"
         android:textSize="55dp"
         android:gravity="right|bottom"

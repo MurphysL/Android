@@ -64,9 +64,12 @@ public class SecondActivity extends MainActivity{
     private double pi = Math.PI;
     private static final double e_num = 2.718281828459;
 
+    private boolean flag = false;
+
     /*GestureDetector gestureDetector_second;
     private static final int SWIPE_MIN_DISTANCE = 20;//滑动距离阙值
     private static final int SWIPE_THRESHOLD_VELOCITY = 10;//滑动速度阙值*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -411,115 +414,167 @@ public class SecondActivity extends MainActivity{
      */
     @Override
     public void onClick(View v) {
-
         Log.i(TAG , "--------onClick2--------");
 
         //把对象转换成String类型
         String str2 = et_INPUT.getText().toString();
 
-        switch ( v.getId() ){
-            case R.id.sbt_0:
-            case R.id.sbt_1:
-            case R.id.sbt_2:
-            case R.id.sbt_3:
-            case R.id.sbt_4:
-            case R.id.sbt_5:
-            case R.id.sbt_6:
-            case R.id.sbt_7:
-            case R.id.sbt_8:
-            case R.id.sbt_9:
-                et_INPUT.setText(str2 + ((Button) v).getText());
-                et_OUTPUT.setText(round(getResult2()));
-                break;
-            case R.id.sbt_π:
-            case R.id.sbt_e:
-                if(str2.length() >= 1 && ( str2.charAt(str2.length() - 1) == '.' || str2.charAt(str2.length() - 1) == 'e'
-                        || str2.charAt(str2.length() - 1) == 'π' || (str2.charAt(str2.length() - 1) >= '0'
-                        && str2.charAt(str2.length() - 1) <= '9'))){
-                    showError(2);
-                }else{
-                    et_INPUT.setText(str2 + ((Button) v).getText());
-                    et_OUTPUT.setText(round(getResult2()));
-                }
-                break;
-            case R.id.sbt_point:
-                if(str2.length() >= 1 && (str2.charAt(str2.length() - 1) == '.' || str2.charAt(str2.length() - 1) == 'e'
-                                || str2.charAt(str2.length() - 1) == 'π')){
-                    showError(2);
-                }else{
-                    et_INPUT.setText(str2 + ((Button) v).getText());
-                    et_OUTPUT.setText(round(getResult2()));
-                }
-                break;
-            case R.id.sbt_cos:
-            case R.id.sbt_sin:
-            case R.id.sbt_tan:
-            case R.id.sbt_leftbracket:
-            case R.id.sbt_rightbracket:
-            case R.id.sbt_radical:
-            case R.id.sbt_power:
-                if(str2.length() >= 1 && (str2.charAt(str2.length() - 1) == '.' || str2.charAt(str2.length() - 1) == 'e'
-                        || str2.charAt(str2.length() - 1) == 'π')){
-                    showError(2);
-                }else{
-                    et_INPUT.setText(str2 + ((Button) v).getText());
-                    et_OUTPUT.setText(round(getResult2()));
-                }
-                break;
-            case R.id.sbt_ln:
-                et_INPUT.setText(str2 + ((Button) v).getText());
-                break;
-            case R.id.sbt_log:
-                et_INPUT.setText( str2 + ((Button) v).getText() + '(');
-                break;
-            case R.id.sbt_factorial:
-                et_INPUT.setText( str2 + ((Button) v).getText() + ' ');
-                break;
-            case R.id.sbt_add:
-            case R.id.sbt_decrease:
-            case R.id.sbt_mult:
-            case R.id.sbt_division:
-                if(str2.length() >= 2 && (str2.charAt(str2.length() - 1) == '+'||str2.charAt(str2.length() - 1) == '-'||
-                        str2.charAt(str2.length() - 1) == '*'||str2.charAt(str2.length() - 1) == '/'
-                        || str2.charAt(str2.length() - 1) == '.')){
-                    showError(2);
-                }else{
-                    et_INPUT.setText(str2 + ((Button) v).getText());
-                }
-                break;
-            case R.id.sbt_Cd:
-                et_INPUT.setText("");
-                et_OUTPUT.setText("");
-                break;
-            case R.id.sbt_DEL:
-                if(str2 != null && !str2.equals("")){
-                    //截取字符串
-                    if(delNumber(str2) == 3){
-                        if(str2.length() > 3){
-                            et_INPUT.setText(str2.substring(0,str2.length() - 3));
-                        }else if (str2.length() == 3){
-                            et_INPUT.setText("");
-                        }
-                    }else if(delNumber(str2) == 2){
-                        if(str2.length() > 2){
-                            et_INPUT.setText(str2.substring(0, str2.length() - 2));
-                        }else if (str2.length() == 2){
-                            et_INPUT.setText("");
-                        }
-                    }else if (delNumber(str2) == 1){
-                        if (str2.length() > 1) {
-                            et_INPUT.setText(str2.substring(0, str2.length() - 1));
-                        }else if (str2.length() == 1) {
-                            et_INPUT.setText("");
+        if(str2.length() >= 15){
+            showError(3);
+            str2 = "";
+            et_INPUT.setText("");
+            et_OUTPUT.setText("");
+        }else {
+            switch (v.getId()) {
+                case R.id.sbt_0:
+                case R.id.sbt_1:
+                case R.id.sbt_2:
+                case R.id.sbt_3:
+                case R.id.sbt_4:
+                case R.id.sbt_5:
+                case R.id.sbt_6:
+                case R.id.sbt_7:
+                case R.id.sbt_8:
+                case R.id.sbt_9:
+                    if (flag == true) {
+                        str2 = "";
+                        flag = false;
+                        et_INPUT.setText(str2 + ((Button) v).getText());
+                        et_OUTPUT.setText(round(getResult2()));
+                    } else {
+                        if (str2.length() >= 1 && (str2.charAt(str2.length() - 1) == '(')) {
+                            et_INPUT.setText(str2 + ((Button) v).getText());
+                        } else {
+                            et_INPUT.setText(str2 + ((Button) v).getText());
+                            et_OUTPUT.setText(round(getResult2()));
                         }
                     }
-                }
-            case R.id.sbt_equal:
-                et_INPUT.setText(round(getResult2()));
-                et_OUTPUT.setText("");
-                break;
-            default:
-                break;
+                    break;
+                case R.id.sbt_π:
+                case R.id.sbt_e:
+                    if (flag == true) {
+                        str2 = "";
+                        flag = false;
+                        et_INPUT.setText(str2 + ((Button) v).getText());
+                        et_OUTPUT.setText(round(getResult2()));
+                    } else {
+                        if (str2.length() >= 1 && (str2.charAt(str2.length() - 1) == '.' || str2.charAt(str2.length() - 1) == 'e'
+                                || str2.charAt(str2.length() - 1) == 'π' || (str2.charAt(str2.length() - 1) >= '0'
+                                && str2.charAt(str2.length() - 1) <= '9'))) {
+                            showError(2);
+                        } else {
+                            et_INPUT.setText(str2 + ((Button) v).getText());
+                            et_OUTPUT.setText(round(getResult2()));
+                        }
+                    }
+                    break;
+                case R.id.sbt_point:
+                    if (flag == true) {
+                        str2 = "";
+                        flag = false;
+                        et_INPUT.setText(str2 + ((Button) v).getText());
+                        et_OUTPUT.setText(round(getResult2()));
+                    } else {
+                        if (str2.length() >= 1 && (str2.charAt(str2.length() - 1) == '.' || str2.charAt(str2.length() - 1) == 'e'
+                                || str2.charAt(str2.length() - 1) == 'π')) {
+                            showError(2);
+                        } else {
+                            et_INPUT.setText(str2 + ((Button) v).getText());
+                            et_OUTPUT.setText(round(getResult2()));
+                        }
+                    }
+                    break;
+                case R.id.sbt_radical:
+                case R.id.sbt_power:
+                    flag = false;
+                    if (str2.length() == 0||str2.length() >= 1 && (str2.charAt(str2.length() - 1) == '.' || str2.charAt(str2.length() - 1) == 'e'
+                            || str2.charAt(str2.length() - 1) == 'π')) {
+                        showError(2);
+                    } else {
+                        et_INPUT.setText(str2 + ((Button) v).getText());
+                        et_OUTPUT.setText(round(getResult2()));
+                    }
+                    break;
+                case R.id.sbt_leftbracket:
+                case R.id.sbt_rightbracket:
+                case R.id.sbt_cos:
+                case R.id.sbt_sin:
+                case R.id.sbt_tan:
+                case R.id.sbt_ln:
+                    if (flag == true) {
+                        str2 = "";
+                        flag = false;
+                    }
+                    et_INPUT.setText(str2 + ((Button) v).getText());
+                    break;
+                case R.id.sbt_log:
+                    if (flag == true) {
+                        str2 = "";
+                        flag = false;
+                    }
+                    et_INPUT.setText(str2 + ((Button) v).getText() + '(');
+                    break;
+                case R.id.sbt_factorial:
+                    flag = false;
+                    if (str2.length() == 0||str2.length() >= 1 && (str2.charAt(str2.length() - 1) == '+' || str2.charAt(str2.length() - 1) == '-' ||
+                            str2.charAt(str2.length() - 1) == '*' || str2.charAt(str2.length() - 1) == '/'
+                            || str2.charAt(str2.length() - 1) == '.'|| str2.charAt(str2.length() - 1) == 'e'
+                            || str2.charAt(str2.length() - 1) == 'π')) {
+                        showError(2);
+                    } else {
+                        et_INPUT.setText(str2 + ((Button) v).getText());
+                    }
+                    break;
+                case R.id.sbt_add:
+                case R.id.sbt_decrease:
+                case R.id.sbt_mult:
+                case R.id.sbt_division:
+                    flag = false;
+                    if (str2.length() == 0||str2.length() >= 1 && (str2.charAt(str2.length() - 1) == '+' || str2.charAt(str2.length() - 1) == '-' ||
+                            str2.charAt(str2.length() - 1) == '*' || str2.charAt(str2.length() - 1) == '/'
+                            || str2.charAt(str2.length() - 1) == '.')) {
+                        showError(2);
+                    } else {
+                        et_INPUT.setText(str2 + ((Button) v).getText());
+                    }
+                    break;
+                case R.id.sbt_Cd:
+                    flag = false;
+                    str2 = "";
+                    et_INPUT.setText("");
+                    et_OUTPUT.setText("");
+                    break;
+                case R.id.sbt_DEL:
+                    if (str2 != null && !str2.equals("")) {
+                        //截取字符串
+                        if (delNumber(str2) == 3) {
+                            if (str2.length() > 3) {
+                                et_INPUT.setText(str2.substring(0, str2.length() - 3));
+                            } else if (str2.length() == 3) {
+                                et_INPUT.setText("");
+                            }
+                        } else if (delNumber(str2) == 2) {
+                            if (str2.length() > 2) {
+                                et_INPUT.setText(str2.substring(0, str2.length() - 2));
+                            } else if (str2.length() == 2) {
+                                et_INPUT.setText("");
+                            }
+                        } else if (delNumber(str2) == 1) {
+                            if (str2.length() > 1) {
+                                et_INPUT.setText(str2.substring(0, str2.length() - 1));
+                            } else if (str2.length() == 1) {
+                                et_INPUT.setText("");
+                            }
+                        }
+                    }
+                case R.id.sbt_equal:
+                    et_INPUT.setText(round(getResult2()));
+                    et_OUTPUT.setText("");
+                    flag = true;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -750,6 +805,9 @@ public class SecondActivity extends MainActivity{
                                 if (number[maxNum - 1] < 0) {
                                     showError(2);
                                     return 0;
+                                }else if(number[maxNum - 1] > 100){
+                                    showError(3);
+                                    return  0;
                                 }
                                 double sum = 1;
                                 for (int j = 1; j <= number[maxNum - 1]; j++) {
@@ -865,7 +923,6 @@ public class SecondActivity extends MainActivity{
         }
 
         Log.i(TAG, "--------INPUT--------");
-        //et_OUTPUT.setText(round(number[0]));
         return number[0];
     }
 
@@ -891,7 +948,8 @@ public class SecondActivity extends MainActivity{
                 || (str2.charAt(str2.length() - 1) == 'n' && str2.charAt(str2.length() - 2) == 'a' && str2.charAt(str2.length() - 3) == 't')
                 || (str2.charAt(str2.length() - 1) == 'g' && str2.charAt(str2.length() - 2) == 'o' && str2.charAt(str2.length() - 3) == 'l')) {
             return 3;
-        } else if (str2.charAt(str2.length() - 1) == 'n' && str2.charAt(str2.length() - 2) == 'l') {
+        } else if (str2.charAt(str2.length() - 1) == 'n' && str2.charAt(str2.length() - 2) == 'l'||
+                str2.charAt(str2.length() - 1) == '!' && str2.charAt(str2.length() - 2) == ' ') {
             return 2;
         } else {
             return 1;
@@ -912,7 +970,7 @@ public class SecondActivity extends MainActivity{
      * 错误提示
      * @param code
      */
-    public void showError(int code) {
+    /*public void showError(int code) {
         switch (code) {
             case 1:
                 Toast.makeText(this,"零不能作除数",Toast.LENGTH_SHORT).show();
@@ -920,10 +978,15 @@ public class SecondActivity extends MainActivity{
             case 2:
                 Toast.makeText(this,"用法错误",Toast.LENGTH_SHORT).show();
                 break;
+            case 3:
+                Toast.makeText(this,"数据过大,请重新输入",Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
         }
     }
 
-    /*@Override
+    @Override
     public boolean onDown(MotionEvent e) {
         return false;
     }

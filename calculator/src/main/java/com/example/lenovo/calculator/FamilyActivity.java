@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -124,20 +125,15 @@ public class FamilyActivity extends MainActivity /*implements View.OnClickListen
             case R.id.bt_younger_sisther:
             case R.id.bt_son:
             case R.id.bt_daughter:
-                if(str.length() >= 2){
-                    c = str.charAt(str.length() - 1);
-                    if(c == '-' || c == '+' || c == '*' || c == '/'){
-                        fet_INPUT.setText(str + ((Button) v).getText());
-                        //AutoGetResult3();
-                    }else{
-                        fet_INPUT.setText(str + ((Button) v).getText());
-                    }
-                }else{
-                    fet_INPUT.setText(str + ((Button) v).getText());
+                fet_INPUT.setText(str + ((Button) v).getText());
+                getResult3();
+                break;
+            case R.id.fbt_s:
+                if(str.length() >= 1 && str.charAt(str.length() - 2) == '的'){
+                    showError(2);
                 }
                 fet_INPUT.setText(str + ((Button) v).getText());
                 break;
-            case R.id.fbt_s:
             case R.id.bt_elder:
             case R.id.bt_younger:
                 fet_INPUT.setText(str + ((Button) v).getText());
@@ -146,17 +142,11 @@ public class FamilyActivity extends MainActivity /*implements View.OnClickListen
                 fet_INPUT.setText("");
                 fet_OUTPUT.setText("");
                 break;
-            case R.id.bt_DEL:
-                if(str != null && !str.equals("")){
-                    Log.i(TAG, "--------lengthDEL--------" + str.length());
-                    Log.i(TAG, "--------lengthDEL--------" + str);
-                    fet_INPUT.setText(str.substring(0 , str.length() - 1));
-                    Log.i(TAG, "--------lengthDEL--------" + str);
-                    Log.i(TAG, "--------lengthDEL--------" + str.length());
-                }
+            case R.id.fbt_DEL:
+                fet_INPUT.setText(str.substring(0 , str.length() - 1));
                 break;
-            case R.id.bt_eq:
-                getResult3();
+            case R.id.fbt_equal:
+                fet_OUTPUT.setText(getResult3());
                 break;
             default:
                 break;
@@ -166,13 +156,15 @@ public class FamilyActivity extends MainActivity /*implements View.OnClickListen
     /**
      * 运算结果
      */
-    public void getResult3(){
+    public String getResult3(){
         Log.i(TAG, "-----------------------------------------------------------------------");
         Log.i(TAG, "--------getResult3--------");
         Log.i(TAG, "-----------------------------------------------------------------------");
 
         String str3 = fet_INPUT.getText().toString();
-        char temp_1 =' ' , temp_2 = ' ';
+
+        char temp_1 = ' ';
+        char temp_2 = ' ';
         String result = "";
 
         if(str3.length() == 3){
@@ -187,6 +179,8 @@ public class FamilyActivity extends MainActivity /*implements View.OnClickListen
                     temp_2 = c_f;
                 }
             }
+            Log.i(TAG, "--------temp_1--------" + temp_1);
+            Log.i(TAG, "--------temp_1--------" + temp_2);
         }
 
         if(temp_1 == '父'){
@@ -195,38 +189,200 @@ public class FamilyActivity extends MainActivity /*implements View.OnClickListen
             }else if(temp_2 == '母'){
                 result = "奶奶";
             }else if(temp_2 == '姐'){
-                result = "奶奶";
+                result = "姑姑";
             }else if(temp_2 == '妹'){
-
+                result = "姑姑";
             }else if(temp_2 == '兄'){
                 result = "大爷";
             }else if(temp_2 == '弟'){
                 result = "叔叔";
             }else if(temp_2 == '子'){
                 result = "我";
-
             }else if(temp_2 == '女'){
 
             }else if(temp_2 == '妻'){
                 result = "母亲";
             }
-
         }else if(temp_1 == '母'){
+            if(temp_2 == '父'){
+                result = "姥爷";
+            }else if(temp_2 == '母'){
+                result = "奶奶";
+            }else if(temp_2 == '姐'){
+                result = "姑姑";
+            }else if(temp_2 == '妹'){
+                result = "姑姑";
+            }else if(temp_2 == '兄'){
+                result = "大爷";
+            }else if(temp_2 == '弟'){
+                result = "叔叔";
+            }else if(temp_2 == '子'){
+                result = "我";
+            }else if(temp_2 == '女'){
+                result = "我";
+            }else if(temp_2 == '妻'){
+                result = "母亲";
+            }
 
         }else if(temp_1 == '姐'){
-
+            if(temp_2 == '父'){
+                result = "爷爷";
+            }else if(temp_2 == '母'){
+                result = "奶奶";
+            }else if(temp_2 == '姐'){
+                result = "姑姑";
+            }else if(temp_2 == '妹'){
+                result = "姑姑";
+            }else if(temp_2 == '兄'){
+                result = "大爷";
+            }else if(temp_2 == '弟'){
+                result = "叔叔";
+            }else if(temp_2 == '子'){
+                result = "我";
+            }else if(temp_2 == '女'){
+                result = "我";
+            }else if(temp_2 == '妻'){
+                result = "母亲";
+            }
         }else if(temp_1 == '妹'){
-
+            if(temp_2 == '父'){
+                result = "爷爷";
+            }else if(temp_2 == '母'){
+                result = "奶奶";
+            }else if(temp_2 == '姐'){
+                result = "姑姑";
+            }else if(temp_2 == '妹'){
+                result = "姑姑";
+            }else if(temp_2 == '兄'){
+                result = "大爷";
+            }else if(temp_2 == '弟'){
+                result = "叔叔";
+            }else if(temp_2 == '子'){
+                result = "我";
+            }else if(temp_2 == '女'){
+                result = "我";
+            }else if(temp_2 == '妻'){
+                result = "母亲";
+            }
         }else if(temp_1 == '兄'){
-
+            if(temp_2 == '父'){
+                result = "爷爷";
+            }else if(temp_2 == '母'){
+                result = "奶奶";
+            }else if(temp_2 == '姐'){
+                result = "姑姑";
+            }else if(temp_2 == '妹'){
+                result = "姑姑";
+            }else if(temp_2 == '兄'){
+                result = "大爷";
+            }else if(temp_2 == '弟'){
+                result = "叔叔";
+            }else if(temp_2 == '子'){
+                result = "我";
+            }else if(temp_2 == '女'){
+                result = "我";
+            }else if(temp_2 == '妻'){
+                result = "母亲";
+            }
         }else if(temp_1 == '弟'){
-
+            if(temp_2 == '父'){
+                result = "爷爷";
+            }else if(temp_2 == '母'){
+                result = "奶奶";
+            }else if(temp_2 == '姐'){
+                result = "姑姑";
+            }else if(temp_2 == '妹'){
+                result = "姑姑";
+            }else if(temp_2 == '兄'){
+                result = "大爷";
+            }else if(temp_2 == '弟'){
+                result = "叔叔";
+            }else if(temp_2 == '子'){
+                result = "我";
+            }else if(temp_2 == '女'){
+                result = "我";
+            }else if(temp_2 == '妻'){
+                result = "母亲";
+            }
         }else if(temp_1 == '子'){
-
+            if(temp_2 == '父'){
+                result = "爷爷";
+            }else if(temp_2 == '母'){
+                result = "奶奶";
+            }else if(temp_2 == '姐'){
+                result = "姑姑";
+            }else if(temp_2 == '妹'){
+                result = "姑姑";
+            }else if(temp_2 == '兄'){
+                result = "大爷";
+            }else if(temp_2 == '弟'){
+                result = "叔叔";
+            }else if(temp_2 == '子'){
+                result = "我";
+            }else if(temp_2 == '女'){
+                result = "我";
+            }else if(temp_2 == '妻'){
+                result = "母亲";
+            }
         }else if(temp_1 == '女'){
-
+            if(temp_2 == '父'){
+                result = "爷爷";
+            }else if(temp_2 == '母'){
+                result = "奶奶";
+            }else if(temp_2 == '姐'){
+                result = "姑姑";
+            }else if(temp_2 == '妹'){
+                result = "姑姑";
+            }else if(temp_2 == '兄'){
+                result = "大爷";
+            }else if(temp_2 == '弟'){
+                result = "叔叔";
+            }else if(temp_2 == '子'){
+                result = "我";
+            }else if(temp_2 == '女'){
+                result = "我";
+            }else if(temp_2 == '妻'){
+                result = "母亲";
+            }
         }else if(temp_1 == '妻'){
+            if(temp_2 == '父'){
+                result = "爷爷";
+            }else if(temp_2 == '母'){
+                result = "奶奶";
+            }else if(temp_2 == '姐'){
+                result = "姑姑";
+            }else if(temp_2 == '妹'){
+                result = "姑姑";
+            }else if(temp_2 == '兄'){
+                result = "大爷";
+            }else if(temp_2 == '弟'){
+                result = "叔叔";
+            }else if(temp_2 == '子'){
+                result = "我";
+            }else if(temp_2 == '女'){
+                result = "我";
+            }else if(temp_2 == '妻'){
+                result = "母亲";
+            }
+        }
 
+        return result;
+    }
+
+    /**
+     * 错误提示
+     * @param code
+     */
+    public void showError(int code) {
+        switch (code) {
+            case 1:
+                Toast.makeText(this, "零不能作除数", Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                Toast.makeText(this,"用法错误",Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+                Toast.makeText(this,"请选择长幼",Toast.LENGTH_SHORT).show();
         }
     }
 

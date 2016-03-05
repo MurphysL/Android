@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private TextView et_INPUT;
     private TextView et_OUTPUT;
 
+    private boolean flag = false;
+
     private GestureDetector gestureDetector;//手势检测
 
     private static final int SWIPE_MIN_DISTANCE = 20;//滑动距离阙值
@@ -84,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
      */
     private void init(){
         Log.i(TAG, "--------init--------");
+
+        Toast.makeText(this,"向左滑动进入科学计算器",Toast.LENGTH_SHORT).show();
 
         //创建手势检测器
         gestureDetector = new GestureDetector(this);
@@ -309,61 +313,82 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         //把对象转换成String类型
         String str = et_INPUT.getText().toString();
 
-        switch (v.getId()){
-            case R.id.bt_0:
-            case R.id.bt_1:
-            case R.id.bt_2:
-            case R.id.bt_3:
-            case R.id.bt_4:
-            case R.id.bt_5:
-            case R.id.bt_6:
-            case R.id.bt_7:
-            case R.id.bt_8:
-            case R.id.bt_9:
-                et_INPUT.setText(str + ((Button) v).getText());
-                et_OUTPUT.setText(round(getResult()));
-                break;
-            case R.id.bt_point:
-                if(str.length() >= 1 && (str.charAt(str.length() - 1) == '.')){
-                    showError(2);
-                }else{
-                    et_INPUT.setText(str + ((Button) v).getText());
-                    et_OUTPUT.setText(round(getResult()));
-                }
-                break;
-            case R.id.bt_add:
-            case R.id.bt_decrease:
-            case R.id.bt_mult:
-            case R.id.bt_division:
-                if(str.length() >= 2 && (str.charAt(str.length() - 1) == '+'||str.charAt(str.length() - 1) == '-'||
-                str.charAt(str.length() - 1) == '*'||str.charAt(str.length() - 1) == '/'
-                        || str.charAt(str.length() - 1) == '.')){
-                    showError(2);
-                }else{
-                    et_INPUT.setText(str + ((Button) v).getText());
-                }
-                break;
-            case R.id.bt_C:
-                et_INPUT.setText("");
-                et_OUTPUT.setText("");
-                break;
-            case R.id.bt_DEL:
-                if(str != null && !str.equals("")){
-                    Log.i(TAG, "--------lengthDEL--------" + str.length());
-                    Log.i(TAG, "--------lengthDEL--------" + str);
-                    et_INPUT.setText(str.substring(0 , str.length() - 1));
-                    Log.i(TAG, "--------lengthDEL--------" + str);
-                    Log.i(TAG, "--------lengthDEL--------" + str.length());
-                }
-                break;
-            case R.id.bt_eq:
-                et_INPUT.setText(round(getResult()));
-                et_OUTPUT.setText("");
-                break;
-            default:
-                break;
+        if(str.length() == 15){
+            showError(3);
+            str = "";
+            et_INPUT.setText("");
+            et_OUTPUT.setText("");
+        }else if(str.length() < 15) {
+
+            switch (v.getId()) {
+                case R.id.bt_0:
+                case R.id.bt_1:
+                case R.id.bt_2:
+                case R.id.bt_3:
+                case R.id.bt_4:
+                case R.id.bt_5:
+                case R.id.bt_6:
+                case R.id.bt_7:
+                case R.id.bt_8:
+                case R.id.bt_9:
+                    if (flag == true) {
+                        str = "";
+                        flag = false;
+                        et_INPUT.setText(str + ((Button) v).getText());
+                        et_OUTPUT.setText(round(getResult()));
+                    } else {
+                        et_INPUT.setText(str + ((Button) v).getText());
+                        et_OUTPUT.setText(round(getResult()));
+                    }
+                    break;
+                case R.id.bt_point:
+                    if (flag == true) {
+                        str = "";
+                        flag = false;
+                        et_INPUT.setText(str + ((Button) v).getText());
+                        et_OUTPUT.setText(round(getResult()));
+                    } else {
+                        if (str.length() >= 1 && (str.charAt(str.length() - 1) == '.')) {
+                            showError(2);
+                        } else {
+                            et_INPUT.setText(str + ((Button) v).getText());
+                            et_OUTPUT.setText(round(getResult()));
+                        }
+                    }
+                    break;
+                case R.id.bt_add:
+                case R.id.bt_decrease:
+                case R.id.bt_mult:
+                case R.id.bt_division:
+                    flag = false;
+                    if (str.length() == 0||str.length() >= 1 && (str.charAt(str.length() - 1) == '+' || str.charAt(str.length() - 1) == '-' ||
+                            str.charAt(str.length() - 1) == '*' || str.charAt(str.length() - 1) == '/'
+                            || str.charAt(str.length() - 1) == '.')) {
+                        showError(2);
+                    } else {
+                        et_INPUT.setText(str + ((Button) v).getText());
+                    }
+                    break;
+                case R.id.bt_C:
+                    flag = false;
+                    et_INPUT.setText("");
+                    et_OUTPUT.setText("");
+                    break;
+                case R.id.bt_DEL:
+                    if (str != null && !str.equals("")) {
+                        et_INPUT.setText(str.substring(0, str.length() - 1));
+                    }
+                    et_OUTPUT.setText("");
+                    break;
+                case R.id.bt_eq:
+                    et_INPUT.setText(round(getResult()));
+                    et_OUTPUT.setText("");
+                    flag = true;
+                    break;
+                default:
+                    break;
+            }
         }
-        Log.i(TAG, "--------length--------" + str.length());
     }
 
     /**
@@ -568,6 +593,11 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             case 2:
                 Toast.makeText(this,"用法错误",Toast.LENGTH_SHORT).show();
                 break;
+            case 3:
+                Toast.makeText(this,"数据过大,请重新输入",Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
         }
     }
 
@@ -596,16 +626,15 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
     }
 
-    @Override
     /**
      * 手势判断
+     * e1 The first down motion event that started the fling.手势起点的移动事件
+     * e2 The move motion event that triggered the current onFling.当前手势点的移动事件
+     * velocityX The velocity of this fling measured in pixels per second along the x axis.每秒x轴方向移动的像素
+     * velocityY The velocity of this fling measured in pixels per second along the y axis.每秒y轴方向移动的像素
      */
+    @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        //e1 The first down motion event that started the fling.手势起点的移动事件
-        //e2 The move motion event that triggered the current onFling.当前手势点的移动事件
-        //velocityX The velocity of this fling measured in pixels per second along the x axis.每秒x轴方向移动的像素
-        //velocityY The velocity of this fling measured in pixels per second along the y axis.每秒y轴方向移动的像素
-
         Log.i(TAG, "--------onFling--------");
 
         if((e1.getX() - e2.getX()) > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
@@ -620,13 +649,11 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             startActivity(intent);
             Toast.makeText(this, "辈分计算器", Toast.LENGTH_SHORT).show();
         }
-        Log.i(TAG, "--------onFling  Left3--------");
         return false;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
         Log.i(TAG, "--------onTouch--------");
 
         return gestureDetector.onTouchEvent(event);
